@@ -111,7 +111,7 @@ bool Configurator::RemoveInteface(std::string const &name)
     return true;
 }
 
-bool Configurator::AddIPAddress(std::string const &interface_name, std::string const &ip_address)
+bool Configurator::AddIPAddress(std::string const &interface_name, std::string const &ip_address, uint8_t prefix_length)
 {
     auto interface = conf_.FindInterface(interface_name);
     if (!interface)
@@ -119,7 +119,7 @@ bool Configurator::AddIPAddress(std::string const &interface_name, std::string c
         return false;
     }
 
-    return interface->AddIPAddress(ip_address);
+    return interface->AddIPAddress(ip_address, prefix_length);
 }
 
 bool Configurator::RemoveIPAddress(std::string const &interface_name, std::string const &ip_address)

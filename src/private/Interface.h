@@ -33,7 +33,7 @@ struct InterfaceConfig
 
     virtual bool Remove();
 
-    virtual bool AddIPAddress(std::string const &ip_address);
+    virtual bool AddIPAddress(std::string const &ip_address, uint8_t prefix_length);
     virtual bool RemoveIPAddress(std::string const &ip_address);
 
     virtual bool CanBeBridged() const { return false; }
@@ -45,7 +45,7 @@ struct InterfaceConfig
 
     ConfiguratorData &configurator_;
     std::string name_;
-    UniqueIPAddresses assigned_ip_addresses_{};
+    UniquePrefixedIPAddresses assigned_ip_addresses_{};
     bool is_up_{false};
 };
 

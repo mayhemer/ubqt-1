@@ -39,9 +39,9 @@ bool EthernetInterfaceConfig::Remove()
     return InterfaceConfig::Remove();
 }
 
-bool EthernetInterfaceConfig::AddIPAddress(std::string const &ip_address)
+bool EthernetInterfaceConfig::AddIPAddress(std::string const &ip_address, uint8_t prefix_length)
 {
-    return bridge_ == nullptr && InterfaceConfig::AddIPAddress(ip_address);
+    return bridge_ == nullptr && InterfaceConfig::AddIPAddress(ip_address, prefix_length);
 }
 
 bool EthernetInterfaceConfig::CanBeBridged() const
@@ -60,7 +60,7 @@ void EthernetInterfaceConfig::AddToBridge(BridgeConfig &bridge_config)
 
 void EthernetInterfaceConfig::RemoveFromBridge(BridgeConfig &bridge_config)
 {
-    assert(bridge_ == &bridge_config);    
+    assert(bridge_ == &bridge_config);
 
     bridge_ = nullptr;
     std::size_t erased = bridge_config.interfaces_.erase(this);

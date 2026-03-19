@@ -18,7 +18,7 @@ struct EthernetInterfaceConfig : public InterfaceConfig
     virtual bool Rename(std::string const &new_name) override;
     virtual bool Remove() override;
 
-    virtual bool AddIPAddress(std::string const &ip_address) override;
+    virtual bool AddIPAddress(std::string const &ip_address, uint8_t prefix_length) override;
 
     virtual bool CanBeBridged() const override;
     virtual void AddToBridge(BridgeConfig &bridge_config) override;

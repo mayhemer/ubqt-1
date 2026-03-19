@@ -16,7 +16,7 @@ int main()
     // Already exists
     assert(!result);
 
-    result = configurator.AddIPAddress("eth0", "192.168.1.1");
+    result = configurator.AddIPAddress("eth0", "192.168.1.1", 24);
     assert(result);
 
     result = configurator.BuildBridge("br0", {"eth0", "eth1"});
@@ -45,13 +45,13 @@ int main()
     // Can't add VLAN on a VLAN interface
     assert(!result);
 
-    result = configurator.AddIPAddress("br0", "192.168.1.1");
+    result = configurator.AddIPAddress("br0", "192.168.1.1", 24);
     assert(result);
-    result = configurator.AddIPAddress("eth0.10", "192.168.1.2");
+    result = configurator.AddIPAddress("eth0.10", "192.168.1.2", 24);
     assert(result);
-    result = configurator.AddIPAddress("eth1.20", "192.168.1.3");
+    result = configurator.AddIPAddress("eth1.20", "192.168.1.3", 24);
     assert(result);
-    result = configurator.AddIPAddress("eth1.20", "192.168.1.3");
+    result = configurator.AddIPAddress("eth1.20", "192.168.1.3", 24);
     // Already used
     assert(!result);
 
@@ -64,7 +64,7 @@ int main()
     // Not assigned
     assert(!result);
 
-    result = configurator.AddIPAddress("eth0", "192.168.1.4");
+    result = configurator.AddIPAddress("eth0", "192.168.1.4", 24);
     // Can't add IP address to an interface that is in a bridge
     assert(!result);
 
@@ -139,7 +139,7 @@ int main()
 
     result = configurator.BuildBridge("br0", {"eth2", "eth3"});
     assert(result);
-    result = configurator.AddIPAddress("br0", "10.0.0.123");
+    result = configurator.AddIPAddress("br0", "10.0.0.123", 8);
     assert(result);
     result = configurator.UpdateBridgeAddInterfaces("br0", {"eth4"});
     assert(result);

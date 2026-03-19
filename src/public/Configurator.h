@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "IPAddr.h"
 #include "ConfiguratorData.h"
 
 class Configurator
@@ -19,16 +18,16 @@ public:
     bool AddVLAN(std::string const &parent_interface, int ID);
     bool RemoveInteface(std::string const &name);
 
-    bool AddIPAddress(std::string const &interface_name, std::string const &ip_address);
+    bool AddIPAddress(std::string const &interface_name, std::string const &ip_address, uint8_t prefix_length);
     bool RemoveIPAddress(std::string const &interface_name, std::string const &ip_address);
-    
+
     bool RenameInterface(std::string const &interface_name, std::string const &new_name);
     bool UpdateAdminState(std::string const &interface_name, bool up);
     bool UpdateBridgeSTP(std::string const &bridge_name, bool STP);
     bool UpdateBridgeAddInterfaces(std::string const &bridge_name, std::vector<std::string> &&interfaces);
     bool UpdateBridgeRemoveInterfaces(std::string const &bridge_name, std::vector<std::string> &&interfaces);
-    // Deliberately not implementing UpdateVLANParentInterface as it would be too complex to implement 
-    // correctly without possible side effects on failure, and is not a common use case. Instead, users 
+    // Deliberately not implementing UpdateVLANParentInterface as it would be too complex to implement
+    // correctly without possible side effects on failure, and is not a common use case. Instead, users
     // can just remove and re-add the VLAN interface with the new parent interface.
     bool UpdateVLANID(std::string const &vlan_interface_name, int new_vlan_id);
     bool UpdateEthernetInterfaceSpeed(std::string const &ethernet_interface_name, int new_speed);

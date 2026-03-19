@@ -27,26 +27,30 @@ bool InterfaceConfig::Remove()
 {
     for (auto const &ip_address : assigned_ip_addresses_)
     {
-        configurator_.used_ip_addresses_.erase(ip_address);
+        configurator_.used_ip_addresses_.erase(ip_address.first);
     }
 
     return true;
 }
 
-bool InterfaceConfig::AddIPAddress(std::string const &ip_address)
+bool InterfaceConfig::AddIPAddress(std::string const &ip_address, uint8_t prefix_length)
 {
-    if (!IPAddress::IsValid(ip_address))
+    uint8_t max_prefix_length = 0;
+    if (!IPAddress::IsValid(ip_address, max_prefix_length))
     {
         return false;
     }
-    auto existing_ip = configurator_.used_ip_addresses_.find(ip_address);
-    if (existing_ip != configurator_.used_ip_addresses_.end())
+    if (prefix_length > max_prefix_length || prefix_length == 0)
+    {
+        return false;
+    }
+    if (configurator_.used_ip_addresses_.contains(ip_address))
     {
         return false;
     }
 
     configurator_.used_ip_addresses_.insert(ip_address);
-    assigned_ip_addresses_.insert(ip_address);
+    assigned_ip_addresses_.insert({ip_address, prefix_length});
     return true;
 }
 
