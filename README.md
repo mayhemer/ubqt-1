@@ -23,6 +23,26 @@ The main configurator is a static singleton (for simplicity).  It holds a map of
 
 Specific classes are implemented for the three desired types: ethernet, VLAN and a bridge.  As the requirement was to be able to update existing interface properties, some type of RTTI was implemented, using enumeration and Find{Type}Interface functions on the configurator, using type compare and static_cast'ing.
 
+## Classes overview
+
+All operations on interfaces are fallible and designed only to keep the memory model.  To make this a more production-grade the internal API rather be in a "bool CanIDoX() -> bool DoX()", but that is out of scope.  All `return false` statements represent a single failure type and can be logged or turned to e.g. exceptions to report to the user (out of scope of this task).
+
+- src/public/Configurator.h  
+  the public API wall face
+- src/private/Interface.h  
+  the base abstract class for all interfaces  
+  impls IP management, admin state handling  
+  defines all extended operations we expose on interfaces and disallows them by default  
+- src/private/EthernetInterfaceConfig.h  
+  defines the ethernet interface  
+  impls the extended functionality for VLAN and bridge, and extendes IP assignement conditions  
+- src/private/VLANInterfaceConfig.h and src/private/BridgeConfig.h  
+  specifics for VLAN and bridge interface representations  
+- src/private/IPAddr.h  
+  helpers for IP manipulation  
+- src/private/ConfiguratorData.h  
+  the configuration data container to cut the private implementation of the public API  
+
 # Adding new interface type
 
 For instance, a LAG interface representation is very similar to the bridge pattern.  I would add new methods on the base interface for creating a LAG interface with similar functionality, possibly even reuse some of it (parent/child relation etc.) possibly by defining some kind of an 'AggregateInterface' specialized abstract class as a base for bridge and LAG interfaces properties.
