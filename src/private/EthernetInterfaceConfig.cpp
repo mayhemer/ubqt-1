@@ -6,8 +6,8 @@
 #include "ConfiguratorData.h"
 #include "VLANInterfaceConfig.h"
 
-EthernetInterfaceConfig::EthernetInterfaceConfig(std::string const &name, ConfiguratorData &configurator, uint32_t MTU, uint32_t speed, bool fullduplex)
-    : InterfaceConfig(name, configurator), MTU_(MTU), speed_(speed), fullduplex_(fullduplex)
+EthernetInterfaceConfig::EthernetInterfaceConfig(std::string const &name, ConfiguratorData &configurator, uint32_t MTU, uint32_t speed, DuplexMode duplex_mode)
+    : InterfaceConfig(name, configurator), MTU_(MTU), speed_(speed), duplex_mode_(duplex_mode)
 {
 }
 

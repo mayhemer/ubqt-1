@@ -10,8 +10,15 @@ class BridgeConfig;
 
 struct EthernetInterfaceConfig : public InterfaceConfig
 {
+    enum class DuplexMode
+    {
+        AutoNeg,
+        Half,
+        Full
+    };
+
     EthernetInterfaceConfig() = delete;
-    EthernetInterfaceConfig(std::string const &name, ConfiguratorData &configurator, uint32_t MTU, uint32_t speed, bool fullduplex);
+    EthernetInterfaceConfig(std::string const &name, ConfiguratorData &configurator, uint32_t MTU, uint32_t speed, DuplexMode duplex_mode);
 
     virtual InterfaceType GetType() const override { return InterfaceType::Ethernet; }
 
@@ -29,7 +36,7 @@ struct EthernetInterfaceConfig : public InterfaceConfig
 
     uint32_t MTU_;
     uint32_t speed_;
-    bool fullduplex_;
+    DuplexMode duplex_mode_;
 
     InterfaceConfig *bridge_{nullptr};
     std::unordered_set<uint16_t> vlan_interfaces_;

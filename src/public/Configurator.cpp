@@ -15,14 +15,14 @@ Configurator &Configurator::Get()
     return self;
 }
 
-bool Configurator::AddEthernetInteface(std::string const &name, int speed, int MTU, bool fullduplex)
+bool Configurator::AddEthernetInteface(std::string const &name, int speed, int MTU, EthernetInterfaceConfig::DuplexMode duplex_mode)
 {
     if (!IsUniqueInterface(name))
     {
         return false;
     }
 
-    auto ethernet_interface = std::make_unique<EthernetInterfaceConfig>(name, conf_, speed, MTU, fullduplex);
+    auto ethernet_interface = std::make_unique<EthernetInterfaceConfig>(name, conf_, speed, MTU, duplex_mode);
     conf_.interfaces_[name] = std::move(ethernet_interface);
     return true;
 }

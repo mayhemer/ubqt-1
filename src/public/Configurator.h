@@ -7,13 +7,14 @@
 #include <vector>
 
 #include "ConfiguratorData.h"
+#include "EthernetInterfaceConfig.h" // For duplex mode
 
 class Configurator
 {
 public:
     static Configurator &Get();
 
-    bool AddEthernetInteface(std::string const &name, int speed, int MTU, bool fullduplex);
+    bool AddEthernetInteface(std::string const &name, int speed, int MTU, EthernetInterfaceConfig::DuplexMode duplex_mode);
     bool BuildBridge(std::string const &name, std::vector<std::string> &&interfaces);
     bool AddVLAN(std::string const &parent_interface, int ID);
     bool RemoveInteface(std::string const &name);

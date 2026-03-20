@@ -8,11 +8,11 @@ int main()
 
     bool result;
 
-    result = configurator.AddEthernetInteface("eth0", 1000, 1500, true);
+    result = configurator.AddEthernetInteface("eth0", 1000, 1500, EthernetInterfaceConfig::DuplexMode::AutoNeg);
     assert(result);
-    result = configurator.AddEthernetInteface("eth1", 1000, 1500, true);
+    result = configurator.AddEthernetInteface("eth1", 1000, 1500, EthernetInterfaceConfig::DuplexMode::AutoNeg);
     assert(result);
-    result = configurator.AddEthernetInteface("eth1", 1000, 1500, true);
+    result = configurator.AddEthernetInteface("eth1", 1000, 1500, EthernetInterfaceConfig::DuplexMode::AutoNeg);
     // Already exists
     assert(!result);
 
@@ -130,11 +130,11 @@ int main()
     assert(configurator.GetData().interfaces_.empty());
     assert(configurator.GetData().used_ip_addresses_.empty());
 
-    result = configurator.AddEthernetInteface("eth2", 1000, 1500, true);
+    result = configurator.AddEthernetInteface("eth2", 1000, 1500, EthernetInterfaceConfig::DuplexMode::Full);
     assert(result);
-    result = configurator.AddEthernetInteface("eth3", 1000, 1500, true);
+    result = configurator.AddEthernetInteface("eth3", 1000, 1500, EthernetInterfaceConfig::DuplexMode::Full);
     assert(result);
-    result = configurator.AddEthernetInteface("eth4", 1000, 1500, true);
+    result = configurator.AddEthernetInteface("eth4", 1000, 1500, EthernetInterfaceConfig::DuplexMode::Full);
     assert(result);
 
     result = configurator.BuildBridge("br0", {"eth2", "eth3"});
