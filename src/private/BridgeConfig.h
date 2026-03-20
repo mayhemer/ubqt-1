@@ -7,11 +7,11 @@
 
 struct BridgeConfig : public InterfaceConfig
 {
+    inline static constexpr InterfaceType InterfaceTypeValue = InterfaceType::Bridge;
+
     BridgeConfig() = delete;
     BridgeConfig(std::string const &name, ConfiguratorData &configurator, bool STP);
 
-    virtual InterfaceType GetType() const override { return InterfaceType::Bridge; }
-    
     virtual bool Remove() override;
 
     std::unordered_set<InterfaceConfig *> interfaces_;

@@ -7,6 +7,7 @@
 VLANInterfaceConfig::VLANInterfaceConfig(std::string const &name, ConfiguratorData &configurator, InterfaceConfig *parent_interface, uint16_t vlan_id)
     : InterfaceConfig(name, configurator), parent_interface_(parent_interface), vlan_id_(vlan_id)
 {
+    interface_type_ = InterfaceTypeValue;
 }
 
 bool VLANInterfaceConfig::UpdateID(uint16_t new_vlan_id)

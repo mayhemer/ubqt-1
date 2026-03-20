@@ -7,18 +7,22 @@
 #include <vector>
 
 #include "IPAddr.h"
-
-struct InterfaceConfig;
-struct EthernetInterfaceConfig;
-struct BridgeConfig;
-struct VLANInterfaceConfig;
+#include "Interface.h"
 
 struct ConfiguratorData
 {
     InterfaceConfig *FindInterface(std::string const &name) const;
-    EthernetInterfaceConfig *FindEthernetInterface(std::string const &name) const;
-    BridgeConfig *FindBridge(std::string const &name) const;
-    VLANInterfaceConfig *FindVLANInterface(std::string const &name) const;
+
+    template <typename T>
+    T *FindInterfaceOfType(std::string const &name) const
+    {
+        auto interface = FindInterface(name);
+        if (interface == nullptr || interface->interface_type_ != T::InterfaceTypeValue)
+        {
+            return nullptr;
+        }
+        return static_cast<T *>(interface);
+    }
 
     std::unordered_map<std::string, std::unique_ptr<InterfaceConfig>> interfaces_;
     UniqueIPAddresses used_ip_addresses_;

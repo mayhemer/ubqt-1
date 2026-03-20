@@ -10,6 +10,8 @@ class BridgeConfig;
 
 struct EthernetInterfaceConfig : public InterfaceConfig
 {
+    inline static constexpr InterfaceType InterfaceTypeValue = InterfaceType::Ethernet;
+
     enum class DuplexMode
     {
         AutoNeg,
@@ -19,8 +21,6 @@ struct EthernetInterfaceConfig : public InterfaceConfig
 
     EthernetInterfaceConfig() = delete;
     EthernetInterfaceConfig(std::string const &name, ConfiguratorData &configurator, uint32_t MTU, uint32_t speed, DuplexMode duplex_mode);
-
-    virtual InterfaceType GetType() const override { return InterfaceType::Ethernet; }
 
     virtual bool Rename(std::string const &new_name) override;
     virtual bool Remove() override;

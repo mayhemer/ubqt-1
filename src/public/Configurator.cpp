@@ -157,7 +157,7 @@ bool Configurator::UpdateAdminState(std::string const &interface_name, bool up)
 
 bool Configurator::UpdateBridgeSTP(std::string const &bridge_name, bool STP)
 {
-    auto bridge = conf_.FindBridge(bridge_name);
+    auto bridge = conf_.FindInterfaceOfType<BridgeConfig>(bridge_name);
     if (!bridge)
     {
         return false;
@@ -168,7 +168,7 @@ bool Configurator::UpdateBridgeSTP(std::string const &bridge_name, bool STP)
 
 bool Configurator::UpdateBridgeAddInterfaces(std::string const &bridge_name, std::vector<std::string> &&interfaces)
 {
-    auto bridge = conf_.FindBridge(bridge_name);
+    auto bridge = conf_.FindInterfaceOfType<BridgeConfig>(bridge_name);
     if (!bridge)
     {
         return false;
@@ -205,7 +205,7 @@ bool Configurator::UpdateBridgeAddInterfaces(std::string const &bridge_name, std
 
 bool Configurator::UpdateBridgeRemoveInterfaces(std::string const &bridge_name, std::vector<std::string> &&interfaces)
 {
-    auto bridge = conf_.FindBridge(bridge_name);
+    auto bridge = conf_.FindInterfaceOfType<BridgeConfig>(bridge_name);
     if (!bridge)
     {
         return false;
@@ -242,7 +242,7 @@ bool Configurator::UpdateBridgeRemoveInterfaces(std::string const &bridge_name, 
 
 bool Configurator::UpdateVLANID(std::string const &vlan_interface_name, int new_vlan_id)
 {
-    auto vlan_interface = conf_.FindVLANInterface(vlan_interface_name);
+    auto vlan_interface = conf_.FindInterfaceOfType<VLANInterfaceConfig>(vlan_interface_name);
     if (!vlan_interface)
     {
         return false;
@@ -259,7 +259,7 @@ bool Configurator::UpdateVLANID(std::string const &vlan_interface_name, int new_
 
 bool Configurator::UpdateEthernetInterfaceSpeed(std::string const &ethernet_interface_name, int new_speed)
 {
-    auto ethernet_interface = conf_.FindEthernetInterface(ethernet_interface_name);
+    auto ethernet_interface = conf_.FindInterfaceOfType<EthernetInterfaceConfig>(ethernet_interface_name);
     if (!ethernet_interface)
     {
         return false;

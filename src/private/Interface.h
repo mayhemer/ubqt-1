@@ -15,6 +15,7 @@ struct VLANInterfaceConfig;
 
 enum class InterfaceType
 {
+    None,
     Ethernet,
     Bridge,
     VLAN
@@ -25,8 +26,6 @@ struct InterfaceConfig
     InterfaceConfig() = delete;
     InterfaceConfig(std::string const &name, ConfiguratorData &configurator);
     virtual ~InterfaceConfig() = default;
-
-    virtual InterfaceType GetType() const = 0;
 
     virtual bool SetAdminState(bool up);
     virtual bool Rename(std::string const &new_name);
@@ -44,8 +43,9 @@ struct InterfaceConfig
     virtual void RemoveVLANInterface([[maybe_unused]] VLANInterfaceConfig const &vlan_interface_config) { assert(false); }
 
     ConfiguratorData &configurator_;
+    InterfaceType interface_type_{InterfaceType::None};
     std::string name_;
-    UniquePrefixedIPAddresses assigned_ip_addresses_{};
+    UniquePrefixedIPAddresses assigned_ip_addresses_;
     bool is_up_{false};
 };
 

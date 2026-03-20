@@ -9,6 +9,7 @@
 EthernetInterfaceConfig::EthernetInterfaceConfig(std::string const &name, ConfiguratorData &configurator, uint32_t MTU, uint32_t speed, DuplexMode duplex_mode)
     : InterfaceConfig(name, configurator), MTU_(MTU), speed_(speed), duplex_mode_(duplex_mode)
 {
+    interface_type_ = InterfaceTypeValue;
 }
 
 bool EthernetInterfaceConfig::Rename(std::string const &new_name)

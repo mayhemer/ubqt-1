@@ -7,6 +7,7 @@
 BridgeConfig::BridgeConfig(std::string const &name, ConfiguratorData &configurator, bool STP)
     : InterfaceConfig(name, configurator), STP_(STP)
 {
+    interface_type_ = InterfaceTypeValue;
 }
 
 bool BridgeConfig::Remove()
