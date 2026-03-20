@@ -29,6 +29,6 @@ bool VLANInterfaceConfig::Remove()
     assert(parent_interface_);
 
     parent_interface_->RemoveVLANInterface(*this);
-    vlan_id_ = 0;
+    parent_interface_ = nullptr;
     return InterfaceConfig::Remove();
 }

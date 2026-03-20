@@ -67,19 +67,15 @@ void EthernetInterfaceConfig::RemoveFromBridge(BridgeConfig &bridge_config)
     assert(erased == 1);
 }
 
-bool EthernetInterfaceConfig::AddVLANInterface(VLANInterfaceConfig &vlan_interface_config)
+bool EthernetInterfaceConfig::AddVLANInterface(VLANInterfaceConfig const &vlan_interface_config)
 {
-    if (vlan_interfaces_.contains(vlan_interface_config.vlan_id_))
-    {
-        return false;
-    }
+    assert(vlan_interface_config.parent_interface_ == this);
 
-    vlan_interfaces_.insert(vlan_interface_config.vlan_id_);
-    vlan_interface_config.parent_interface_ = this;
-    return true;
+    auto insert = vlan_interfaces_.insert(vlan_interface_config.vlan_id_);
+    return insert.second;
 }
 
-void EthernetInterfaceConfig::RemoveVLANInterface(VLANInterfaceConfig &vlan_interface_config)
+void EthernetInterfaceConfig::RemoveVLANInterface(VLANInterfaceConfig const &vlan_interface_config)
 {
     std::size_t erased = vlan_interfaces_.erase(vlan_interface_config.vlan_id_);
     assert(erased == 1);

@@ -40,8 +40,8 @@ struct InterfaceConfig
     virtual void AddToBridge([[maybe_unused]] BridgeConfig &bridge_config) { assert(false); }
     virtual void RemoveFromBridge([[maybe_unused]] BridgeConfig &bridge_config) { assert(false); }
 
-    virtual bool AddVLANInterface([[maybe_unused]] VLANInterfaceConfig &vlan_interface_config) { return false; }
-    virtual void RemoveVLANInterface([[maybe_unused]] VLANInterfaceConfig &vlan_interface_config) { assert(false); }
+    virtual bool AddVLANInterface([[maybe_unused]] VLANInterfaceConfig const &vlan_interface_config) { return false; }
+    virtual void RemoveVLANInterface([[maybe_unused]] VLANInterfaceConfig const &vlan_interface_config) { assert(false); }
 
     ConfiguratorData &configurator_;
     std::string name_;

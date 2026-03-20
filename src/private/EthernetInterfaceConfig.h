@@ -31,8 +31,8 @@ struct EthernetInterfaceConfig : public InterfaceConfig
     virtual void AddToBridge(BridgeConfig &bridge_config) override;
     virtual void RemoveFromBridge(BridgeConfig &bridge_config) override;
 
-    virtual bool AddVLANInterface(VLANInterfaceConfig &vlan_interface_config) override;
-    virtual void RemoveVLANInterface(VLANInterfaceConfig &vlan_interface_config) override;
+    virtual bool AddVLANInterface(VLANInterfaceConfig const &vlan_interface_config) override;
+    virtual void RemoveVLANInterface(VLANInterfaceConfig const &vlan_interface_config) override;
 
     uint32_t MTU_;
     uint32_t speed_;
