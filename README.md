@@ -27,22 +27,23 @@ Specific classes are implemented for the three desired types: ethernet, VLAN and
 
 All operations on interfaces are fallible and designed only to keep the memory model.  To make this a more production-grade the internal API rather be in a "bool CanIDoX() -> bool DoX()", but that is out of scope.  All `return false` statements represent a single failure type and can be logged or turned to e.g. exceptions to report to the user (out of scope of this task).
 
-- src/public/Configurator.h  
+- `src/public/Configurator.h`  
   the public API wall face
-- src/private/Interface.h  
+- `src/private/Interface.h`  
   the base abstract class for all interfaces  
-  impls IP management, admin state handling  
-  defines all extended operations we expose on interfaces and disallows them by default  
-- src/private/EthernetInterfaceConfig.h  
-  defines the ethernet interface  
-  impls the extended functionality for VLAN and bridge, and extendes IP assignement conditions  
-- src/private/VLANInterfaceConfig.h and src/private/BridgeConfig.h  
+  implementss IP management, admin state handling  
+  declares all extended operations like btidge adding, VLAN adding with empty (failing) implementation, expected to be re-implemented by responsible specific interface type(s)  
+  the base remove-self operation is implemented, and can be overriden by specific interface types to further condition the removal
+- `src/private/EthernetInterfaceConfig.h`  
+  defines the ethernet interface and holds its specific properties  
+  implements the extended functionality for VLAN and bridge, and extendes IP assignement and removal conditions  
+- `src/private/VLANInterfaceConfig.h` and `src/private/BridgeConfig.h`  
   specifics for VLAN and bridge interface representations  
-- src/private/IPAddr.h  
-  helpers for IP manipulation  
-- src/private/ConfiguratorData.h  
-  the configuration data container to cut the private implementation of the public API  
+- `src/private/IPAddr.h`  
+  helpers for IP manipulation and validation  
+- `src/private/ConfiguratorData.h`  
+  the configuration data container to cut the private implementation of off the public API  
 
 # Adding new interface type
 
-For instance, a LAG interface representation is very similar to the bridge pattern.  I would add new methods on the base interface for creating a LAG interface with similar functionality, possibly even reuse some of it (parent/child relation etc.) possibly by defining some kind of an 'AggregateInterface' specialized abstract class as a base for bridge and LAG interfaces properties.
+For instance, a LAG interface representation is very similar to the bridge pattern.  I would add new methods on the base abstract interface for suporting creation of a LAG interface and new public API.  As the functionality is similar to bridge, I would possibly reuse some of the parent/child relation logic.  Possibly, by defining an 'AggregateInterface' specialized abstract class as a base for bridge and LAG interfaces properties.
