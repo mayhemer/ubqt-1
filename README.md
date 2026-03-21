@@ -3,7 +3,7 @@
 You need cmake (3.20+), ninja (1.13+), compilation tested against GCC 15.2 and AppleCLang 17 (on macOS).
 
 ```bash
-# From the repository root, assuming your compiler of choise is in your PATH, run:
+# From the repository root, assuming your compiler of choice is in your PATH, run:
 # ( If not, add -DCMAKE_CXX_COMPILER:FILEPATH={path-to-compiler} )
 cmake -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -S . -B ./build -G Ninja
 cmake --build ./build --config Debug --target all
@@ -13,7 +13,7 @@ cmake --build ./build --config Debug --target all
 
 # Design
 
-I've chosen to go with defining a base class for a general declarion of an interface common properties and virtualization of all possible functions for IP address manipulation, adding to a bridge and creating VLANs.  This design naturally, via virtualization, enables or disables certain operations according the interface type and can be easily modified when we want e.g. to allow VLAN of off a bridge.  It greatly simplifies the public API and doesn't add a need to do the complicated type/state checking inside the configuration API implementation itself.
+I've chosen to go with defining a base class for a general declaration of an interface common properties and virtualization of all possible functions for IP address manipulation, adding to a bridge and creating VLANs.  This design naturally, via virtualization, enables or disables certain operations according the interface type and can be easily modified when we want e.g. to allow VLAN of off a bridge.  It greatly simplifies the public API and doesn't add a need to do the complicated type/state checking inside the configuration API implementation itself.
 
 The main configurator is a static singleton (for simplicity).  It holds a map of interface names to interface configurations, via a unique pointer reference.  This naturally ensures interfaces unique naming.  Child/parent references are using raw pointers to allow simple interface renaming - if this was not required I'd prefer to keep references by a name instead.  It is safe to use raw pointers as it's ensured 1) by the logic that parents can't be removed when referenced 2) by hiding the objects from public consumers - no external manipulation allowed.  When an interface is removed from the map, it is released from memory.
 
@@ -31,12 +31,12 @@ All operations on interfaces are fallible and designed only to keep the memory m
   the public API wall face
 - `src/private/Interface.h`  
   the base abstract class for all interfaces  
-  implementss IP management, admin state handling  
-  declares all extended operations like btidge adding, VLAN adding with empty (failing) implementation, expected to be re-implemented by responsible specific interface type(s)  
-  the base remove-self operation is implemented, and can be overriden by specific interface types to further condition the removal
+  implements IP management, admin state handling  
+  declares all extended operations like bridge adding, VLAN adding with empty (failing) implementation, expected to be re-implemented by responsible specific interface type(s)  
+  the base remove-self operation is implemented, and can be overridden by specific interface types to further condition the removal
 - `src/private/EthernetInterfaceConfig.h`  
   defines the ethernet interface and holds its specific properties  
-  implements the extended functionality for VLAN and bridge, and extendes IP assignement and removal conditions  
+  implements the extended functionality for VLAN and bridge, and extends IP assignment and removal conditions  
 - `src/private/VLANInterfaceConfig.h` and `src/private/BridgeConfig.h`  
   specifics for VLAN and bridge interface representations  
 - `src/private/IPAddr.h`  
@@ -46,4 +46,4 @@ All operations on interfaces are fallible and designed only to keep the memory m
 
 # Adding new interface type
 
-For instance, a LAG interface representation is very similar to the bridge pattern.  I would add new methods on the base abstract interface for suporting creation of a LAG interface and new public API.  As the functionality is similar to bridge, I would possibly reuse some of the parent/child relation logic.  Possibly, by defining an 'AggregateInterface' specialized abstract class as a base for bridge and LAG interfaces properties.
+For instance, a LAG interface representation is very similar to the bridge pattern.  I would add new methods on the base abstract interface for supporting creation of a LAG interface and new public API.  As the functionality is similar to bridge, I would possibly reuse some of the parent/child relation logic.  Possibly, by defining an 'AggregateInterface' specialized abstract class as a base for bridge and LAG interfaces properties.
