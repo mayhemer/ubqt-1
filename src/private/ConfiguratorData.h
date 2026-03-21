@@ -17,11 +17,7 @@ struct ConfiguratorData
     T *FindInterfaceOfType(std::string const &name) const
     {
         auto interface = FindInterface(name);
-        if (interface == nullptr || interface->interface_type_ != T::InterfaceTypeValue)
-        {
-            return nullptr;
-        }
-        return static_cast<T *>(interface);
+        return interface && interface->interface_type_ == T::InterfaceTypeValue ? static_cast<T *>(interface) : nullptr;
     }
 
     std::unordered_map<std::string, std::unique_ptr<InterfaceConfig>> interfaces_;
