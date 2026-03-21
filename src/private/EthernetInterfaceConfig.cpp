@@ -19,11 +19,8 @@ bool EthernetInterfaceConfig::Rename(std::string const &new_name)
         // For simplicity, disallow renaming if there are VLAN interfaces. Otherwise, we would need to rename all VLAN interfaces as well.
         return false;
     }
-    if (!InterfaceConfig::Rename(new_name))
-    {
-        return false;
-    }
-    return false;
+
+    return InterfaceConfig::Rename(new_name);
 }
 
 bool EthernetInterfaceConfig::Remove()
